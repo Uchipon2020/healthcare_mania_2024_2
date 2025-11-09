@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:healthcare_mania_2024_2/screens/main_screen.dart';
+import 'package:healthcare_mania_2024_3/screens/main_screen.dart';
 
 void main() async {runApp( const MyApp());
 }
