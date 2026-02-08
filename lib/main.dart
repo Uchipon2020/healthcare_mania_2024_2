@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthcare_mania_2024_3/screens/main_screen.dart';
 
-void main() async {runApp( const MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Health Care Mania',
+        title: 'Health Care Mania free',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: false,
