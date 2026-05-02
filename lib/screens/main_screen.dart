@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/model.dart';
 import '../utils/database_helper.dart';
+import 'dashboard_screen.dart';
 import 'mode_detail_screen.dart';
 
 import 'model_view_screen.dart';
 
 class ModelListScreen extends StatefulWidget {
   const ModelListScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ModelListScreenState();
@@ -37,18 +39,40 @@ class ModelListScreenState extends State<ModelListScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('HEALTHCARE MANIA'), actions: [
-        PopupMenuButton<Text>(
-          itemBuilder: (context) {
-            return [
-              const PopupMenuItem(
-                child: Text("設定"),
-              ),
-            ];
-          },
+      appBar: AppBar(title: const Text('HEALTHCARE MANIA'),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.dashboard),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => DashboardScreen(modelList: modelList!),
+                  ));
+                },
+            ),
+            ],
+
         ),
-      ]),
       body: getModelListView(),
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: '記録一覧',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'ダッシュボード',
+          ),
+        ],
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) => DashboardScreen(modelList: modelList!),
+            ));
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
@@ -83,7 +107,7 @@ class ModelListScreenState extends State<ModelListScreen> {
             subtitle: Text('更新日${modelList![position].date}'),
             trailing: GestureDetector(
               child: IconButton(
-                icon: const Icon(Icons.account_balance_wallet),
+                icon: const Icon(Icons.edit_note),
                 color: Colors.grey,
                 onPressed: () {
                   navigateToDetail(modelList![position], '訂正');
@@ -174,7 +198,7 @@ class ModelListScreenState extends State<ModelListScreen> {
 
   void updateListView() {
     final Future<Database> dbFuture =
-    databaseHelper.initializeDatabase(); //イニシャライズとは、初期化
+        databaseHelper.initializeDatabase(); //イニシャライズとは、初期化
     dbFuture.then((database) {
       //thenはFor thenの時のように、処理が終了したら、という意味合い
       Future<List> noteListFuture = databaseHelper.getModelList();

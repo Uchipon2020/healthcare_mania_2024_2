@@ -64,6 +64,7 @@ class DatabaseHelper {
   String colSerumIron = 'serumIron';
   String colPlatelet = 'platelet';
   String colInternal = 'internal';
+  String colMemo = 'memo';
 
   DatabaseHelper._createInstance(); //
   factory DatabaseHelper() {
@@ -81,7 +82,7 @@ class DatabaseHelper {
     String path = '${directory.path}models.db';
     var modelsDatabase = await openDatabase(
         path,
-        version: 3,
+        version: 4,
         onCreate: _createDb,
         onUpgrade: _upgradeDB);
     return modelsDatabase;
@@ -104,7 +105,8 @@ class DatabaseHelper {
         ' $colAlbumin TEXT, $colTotalBilirubin TEXT, $colAlp TEXT, $colTotalCholesterol TEXT,'//
         ' $colUricAcid TEXT, $colReaNitrogen TEXT, $colCreatinine TEXT, $colAmylase TEXT,'
         ' $colWhiteBloodCell TEXT, $colHematocrit TEXT, $colMcv TEXT, $colMch TEXT, $colMchc TEXT,'
-        ' $colSerumIron TEXT, $colPlatelet TEXT, $colInternal TEXT)');
+        ' $colSerumIron TEXT, $colPlatelet TEXT, $colInternal TEXT,'
+        ' $colMemo TEXT)');
   }
 
   void _upgradeDB(Database db, int oldVersion, int newVersion) async {
@@ -142,6 +144,7 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE $modelTable ADD COLUMN $colSerumIron TEXT');
       await db.execute('ALTER TABLE $modelTable ADD COLUMN $colPlatelet TEXT');
       await db.execute('ALTER TABLE $modelTable ADD COLUMN $colInternal TEXT');
+      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colMemo TEXT');
     } catch (e){if (kDebugMode) {
       print("Error during upgrading: $e");
     }}}

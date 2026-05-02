@@ -53,6 +53,7 @@ class Model {
   String? _45_serumIron;
   String? _46_platelet;
   String? _47_internal;
+  String? _48_memo;
 
   Model(
       this._priority, [
@@ -104,6 +105,7 @@ class Model {
         this._45_serumIron = "", //血清鉄
         this._46_platelet = "", //血小板
         this._47_internal = "",
+        this._48_memo = "",
       ]);
 
   Model.withId(
@@ -158,6 +160,7 @@ class Model {
         this._45_serumIron, //血清鉄
         this._46_platelet, //血小板
         this._47_internal,
+        this._48_memo,
       ]);
 
   int? get id => _id;
@@ -210,6 +213,7 @@ class Model {
   String get serumIron_45 => _45_serumIron!; //血清鉄
   String get platelet_46 => _46_platelet!; //血小板
   String get internal_47 => _47_internal!;
+  String get memo_48 => _48_memo ?? '';
 
   /////setter aria
   set height_1(String newHeight) {
@@ -413,6 +417,9 @@ class Model {
   set internal_47(String value){
     _47_internal = value;
   }
+  set memo_48(String value){
+    _48_memo = value;
+  }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
@@ -466,6 +473,7 @@ class Model {
     map['serumIron'] = _45_serumIron;
     map['platelet'] = _46_platelet;
     map['internal'] = _47_internal;
+    map['memmo'] = _48_memo;
     return map;
   }
 
@@ -521,5 +529,6 @@ class Model {
     _45_serumIron = map['serumIron'];
     _46_platelet = map['platelet'];
     _47_internal = map['internal'];
+    _48_memo = map['memo'];
   }
 }

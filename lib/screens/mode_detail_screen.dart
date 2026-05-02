@@ -90,7 +90,7 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
     hEmoController.text = widget.model.hemoglobin_14;
     gOtController.text = widget.model.got_15;
     gPtController.text = widget.model.gpt_16;
-    gTpController.text = widget.model.gpt_16;
+    gTpController.text = widget.model.gtp_17;
     lDlController.text = widget.model.ldl_18;
     hDlController.text = widget.model.hdl_19;
     nFatController.text = widget.model.neutral_fat_20;
