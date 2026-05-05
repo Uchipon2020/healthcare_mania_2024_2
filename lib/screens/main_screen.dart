@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import '../main.dart';
 import '../models/model.dart';
 import '../utils/database_helper.dart';
 import 'dashboard_screen.dart';
@@ -39,21 +40,33 @@ class ModelListScreenState extends State<ModelListScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('HEALTHCARE MANIA'),
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.dashboard),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => DashboardScreen(modelList: modelList!),
+      appBar: AppBar(
+        title: const Text('HEALTHCARE MANIA'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.dashboard),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DashboardScreen(modelList: modelList!),
                   ));
-                },
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
             ),
-            ],
-
-        ),
+            onPressed: () {
+              MyApp.of(context)?.toggleTheme();
+            },
+          ),
+        ],
+      ),
       body: getModelListView(),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -67,9 +80,11 @@ class ModelListScreenState extends State<ModelListScreen> {
         ],
         onTap: (index) {
           if (index == 1) {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) => DashboardScreen(modelList: modelList!),
-            ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DashboardScreen(modelList: modelList!),
+                ));
           }
         },
       ),
@@ -96,7 +111,6 @@ class ModelListScreenState extends State<ModelListScreen> {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.white,
           elevation: 5.0,
           child: ListTile(
             leading: CircleAvatar(
@@ -108,7 +122,6 @@ class ModelListScreenState extends State<ModelListScreen> {
             trailing: GestureDetector(
               child: IconButton(
                 icon: const Icon(Icons.edit_note),
-                color: Colors.grey,
                 onPressed: () {
                   navigateToDetail(modelList![position], '訂正');
                 },

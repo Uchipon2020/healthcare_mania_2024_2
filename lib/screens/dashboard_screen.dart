@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/model.dart';
+import '../utils/csv_exporter.dart';
 
 class DashboardScreen extends StatelessWidget {
   final List<Model> modelList;
@@ -21,7 +22,17 @@ class DashboardScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        appBar: AppBar(title: const Text('ダッシュボード')),
+        appBar: AppBar(title: const Text('ダッシュボード'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.download),
+            tooltip: 'CSVエクスポート',
+            onPressed: () async {
+              await CsvExporter.export(modelList);
+            },
+          )
+        ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(6.0),
           child: ListView(children: [
