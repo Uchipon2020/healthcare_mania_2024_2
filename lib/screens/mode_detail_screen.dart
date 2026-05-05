@@ -1589,6 +1589,7 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
     } else {
       _showAlertDialog('状況', '問題発生・保存されませんでした');
     }
+
   }
 
   void _delete() async {
