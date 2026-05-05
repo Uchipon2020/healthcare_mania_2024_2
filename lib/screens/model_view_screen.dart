@@ -86,7 +86,7 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
     };
 // 既存のmodelViews初期化...
     modelViews = {
-      99: _priorities[widget.model.priority -1],
+      99: _priorities[widget.model.priority - 1],
       1: widget.model.height_1,
       2: widget.model.weight_2,
       3: widget.model.waist_3,
@@ -349,366 +349,453 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
             indent: 20,
             endIndent: 0,
           ),
-          const Text(
-            '血液検査',
-            style: TextStyle(color: Colors.red),
+          Row(
+            children: [
+              Expanded(
+                  child: Divider(
+                color: Colors.red,
+              )),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Text('血液検査',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold)),
+              ),
+              Expanded(child: Divider(color: Colors.red)),
+            ],
           ),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '血清蛋白',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '総蛋白：${modelViews[31]!}g/dL',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: weightCheck(31),
-                    color: valueColor(31),
+          if ([31, 32].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '血清蛋白',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-                Text(
-                  'アルブミン：${modelViews[32]!} g/dL',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: weightCheck(32),
-                    color: valueColor(32),
+                  Text(
+                    '総蛋白：${modelViews[31]!}g/dL',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: weightCheck(31),
+                      color: valueColor(31),
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    'アルブミン：${modelViews[32]!} g/dL',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: weightCheck(32),
+                      color: valueColor(32),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           const SizedBox(
             height: 3.0,
           ),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '肝機能',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '総ビリルビン：${modelViews[33]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(33),
-                    color: valueColor(33),
-                  ),
-                ),
-                Text(
-                  'GOT（ALT)：${modelViews[15]!} U/L',
-                  style: TextStyle(
-                    fontWeight: weightCheck(15),
-                    color: valueColor(15),
-                  ),
-                ),
-                Text(
-                  'GPT（AST)：${modelViews[16]!} U/L',
-                  style: TextStyle(
-                    fontWeight: weightCheck(16),
-                    color: valueColor(16),
-                  ),
-                ),
-                Text(
-                  'ALP：${modelViews[34]!} U/L',
-                  style: TextStyle(
-                    fontWeight: weightCheck(34),
-                    color: valueColor(34),
-                  ),
-                ),
-                Text(
-                  'γ-GTP：${modelViews[17]!} U/L',
-                  style: TextStyle(
-                    fontWeight: weightCheck(17),
-                    color: valueColor(17),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '脂質',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  '総コレステロール：${modelViews[35]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(35),
-                    color: valueColor(35),
-                  ),
-                ),
-                Text(
-                  'ＬＤＬ: ${modelViews[18]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(18),
-                    color: valueColor(18),
-                  ),
-                ),
-                Text(
-                  'ＨＤＬ: ${modelViews[19]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(19),
-                    color: valueColor(19),
-                  ),
-                ),
-                Text(
-                  '中性脂肪：${modelViews[20]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(20),
-                    color: valueColor(20),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '尿酸',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '尿酸：${modelViews[36]!}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(36),
-                    color: valueColor(36),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '腎機能',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '尿素窒素：${modelViews[37]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(37),
-                    color: valueColor(37),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '尿糖：${modelViews[26]!}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(26),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '尿蛋白：${modelViews[25]!}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(25),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'クレアチニン：${modelViews[38]!} mg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(38),
-                    color: valueColor(38),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '尿潜血：${modelViews[29]!}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(29),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('アミラーゼ',
-                    style: TextStyle(color: Colors.grey),
-                    textAlign: TextAlign.left),
-                Text('アミラーゼ：${modelViews[39]!} U/L',
-                    style: TextStyle(
-                      fontWeight: weightCheck(39),
-                      color: valueColor(39),
+          if ([33, 15, 16, 34, 17].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '肝機能',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
                     ),
-                    textAlign: TextAlign.left),
-              ],
+                  ),
+                  Text(
+                    '総ビリルビン：${modelViews[33]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(33),
+                      color: valueColor(33),
+                    ),
+                  ),
+                  Text(
+                    'GOT（ALT)：${modelViews[15]!} U/L',
+                    style: TextStyle(
+                      fontWeight: weightCheck(15),
+                      color: valueColor(15),
+                    ),
+                  ),
+                  Text(
+                    'GPT（AST)：${modelViews[16]!} U/L',
+                    style: TextStyle(
+                      fontWeight: weightCheck(16),
+                      color: valueColor(16),
+                    ),
+                  ),
+                  Text(
+                    'ALP：${modelViews[34]!} U/L',
+                    style: TextStyle(
+                      fontWeight: weightCheck(34),
+                      color: valueColor(34),
+                    ),
+                  ),
+                  Text(
+                    'γ-GTP：${modelViews[17]!} U/L',
+                    style: TextStyle(
+                      fontWeight: weightCheck(17),
+                      color: valueColor(17),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '糖代謝',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '空腹時血糖：${modelViews[21]!} mg/dL${diffText(21)}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(21),
-                    color: valueColor(21),
+          if ([35, 18, 19, 20].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '脂質',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'HbA1c：${modelViews[22]!} %${diffText(22)}',
-                  style: TextStyle(
-                    fontWeight: weightCheck(22),
-                    color: valueColor(22),
+                  Text(
+                    '総コレステロール：${modelViews[35]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(35),
+                      color: valueColor(35),
+                    ),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+                  Text(
+                    'ＬＤＬ: ${modelViews[18]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(18),
+                      color: valueColor(18),
+                    ),
+                  ),
+                  Text(
+                    'ＨＤＬ: ${modelViews[19]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(19),
+                      color: valueColor(19),
+                    ),
+                  ),
+                  Text(
+                    '中性脂肪：${modelViews[20]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(20),
+                      color: valueColor(20),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '白血球数',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '白血球数: ${modelViews[40]!} /μL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(40),
-                    color: valueColor(40),
+          if ([36].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '尿酸',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+                  Text(
+                    '尿酸：${modelViews[36]!}',
+                    style: TextStyle(
+                      fontWeight: weightCheck(36),
+                      color: valueColor(36),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
             ),
-          ),
           const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '貧血',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '赤血球数: ${modelViews[13]!} 万/μL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(13),
-                    color: valueColor(13),
+          if ([37, 38].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '腎機能',
+                      style: TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '血色素量：${modelViews[14]!} g/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(14),
-                    color: valueColor(14),
+                  Text(
+                    '尿素窒素：${modelViews[37]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(37),
+                      color: valueColor(37),
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'ヘマトクリット：${modelViews[41]!} %',
-                  style: TextStyle(
-                    fontWeight: weightCheck(41),
-                    color: valueColor(41),
+                  Text(
+                    'クレアチニン：${modelViews[38]!} mg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(38),
+                      color: valueColor(38),
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'ＭＣＶ：${modelViews[42]!} fL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(42),
-                    color: valueColor(42),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'ＭＣＨ：${modelViews[43]!} fL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(43),
-                    color: valueColor(43),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  'ＭＣＨＣ：${modelViews[44]!} %',
-                  style: TextStyle(
-                    fontWeight: weightCheck(44),
-                    color: valueColor(44),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '血清鉄：${modelViews[45]!} μg/dL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(45),
-                    color: valueColor(45),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
           const SizedBox(height: 3.0),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '血小板',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '血小板：${modelViews[46]!}  万/μL',
-                  style: TextStyle(
-                    fontWeight: weightCheck(46),
-                    color: valueColor(46),
+          if ([39].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text('アミラーゼ',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+                  Text('アミラーゼ：${modelViews[39]!} U/L',
+                      style: TextStyle(
+                        fontWeight: weightCheck(39),
+                        color: valueColor(39),
+                      ),
+                      textAlign: TextAlign.left),
+                ],
+              ),
             ),
-          ),
+          const SizedBox(height: 3.0),
+          if ([21, 22].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '糖代謝',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Text(
+                    '空腹時血糖：${modelViews[21]!} mg/dL${diffText(21)}',
+                    style: TextStyle(
+                      fontWeight: weightCheck(21),
+                      color: valueColor(21),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    'HbA1c：${modelViews[22]!} %${diffText(22)}',
+                    style: TextStyle(
+                      fontWeight: weightCheck(22),
+                      color: valueColor(22),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 3.0),
+          if ([40].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '白血球',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Text(
+                    '白血球数: ${modelViews[40]!} /μL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(40),
+                      color: valueColor(40),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 3.0),
+          if ([13, 14, 41, 42, 43, 44, 45].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '貧血',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Text(
+                    '赤血球数: ${modelViews[13]!} 万/μL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(13),
+                      color: valueColor(13),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    '血色素量：${modelViews[14]!} g/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(14),
+                      color: valueColor(14),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    'ヘマトクリット：${modelViews[41]!} %',
+                    style: TextStyle(
+                      fontWeight: weightCheck(41),
+                      color: valueColor(41),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    'ＭＣＶ：${modelViews[42]!} fL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(42),
+                      color: valueColor(42),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    'ＭＣＨ：${modelViews[43]!} fL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(43),
+                      color: valueColor(43),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    'ＭＣＨＣ：${modelViews[44]!} %',
+                    style: TextStyle(
+                      fontWeight: weightCheck(44),
+                      color: valueColor(44),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    '血清鉄：${modelViews[45]!} μg/dL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(45),
+                      color: valueColor(45),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 3.0),
+          if ([46].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text(
+                      '血小板',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Text(
+                    '血小板：${modelViews[46]!}  万/μL',
+                    style: TextStyle(
+                      fontWeight: weightCheck(46),
+                      color: valueColor(46),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+            ),
           const Divider(
             color: Colors.grey,
             height: 20,
@@ -719,26 +806,31 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
           const SizedBox(
             height: 3.0,
           ),
-          Card(
-            elevation: 0.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '便潜血',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  '便潜血：${modelViews[30]!},',
-                  style: TextStyle(
-                    fontWeight: weightCheck(30),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              Expanded(child: Divider(color: Colors.teal)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Text('検尿・検便',
+                    style: TextStyle(
+                        color: Colors.teal, fontWeight: FontWeight.bold)),
+              ),
+              Expanded(child: Divider(color: Colors.teal)),
+            ],
           ),
+          if ([25, 26, 29, 30].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (modelViews[26] != ' -- ') Text('尿糖：${modelViews[26]!}'),
+                  if (modelViews[25] != ' -- ') Text('尿蛋白：${modelViews[25]!}'),
+                  if (modelViews[29] != ' -- ') Text('尿潜血：${modelViews[29]!}'),
+                  if (modelViews[30] != ' -- ') Text('便潜血：${modelViews[30]!}'),
+                ],
+              ),
+            ),
         ]),
       ),
     );
@@ -747,6 +839,7 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
   FontWeight weightCheck(int inside) {
     return modelViews[inside] == ' -- ' ? FontWeight.normal : FontWeight.bold;
   }
+
   Color valueColor(int key) {
     if (modelViews[key] == ' -- ') return Colors.black;
     final value = double.tryParse(modelViews[key]!);
