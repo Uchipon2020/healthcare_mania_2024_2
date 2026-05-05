@@ -28,7 +28,8 @@ class DashboardScreen extends StatelessWidget {
             icon: const Icon(Icons.download),
             tooltip: 'CSVエクスポート',
             onPressed: () async {
-              await CsvExporter.export(modelList);
+              await
+              CsvExporter.export(modelList);
             },
           )
         ],
@@ -72,7 +73,10 @@ class DashboardScreen extends StatelessWidget {
               _buildRow('クレアチニン', latest.creatinine_38, 'mg/dL', null, 1.07),
             ]),
           ]),
-        ));
+        ),
+        bottomNavigationBar: const AdBannerWidget(),
+        );
+
   }
 
   Widget _buildCard(String title, List<Widget> rows) {
