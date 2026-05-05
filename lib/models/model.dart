@@ -473,7 +473,7 @@ class Model {
     map['serumIron'] = _45_serumIron;
     map['platelet'] = _46_platelet;
     map['internal'] = _47_internal;
-    map['memmo'] = _48_memo;
+    map['memo'] = _48_memo;
     return map;
   }
 

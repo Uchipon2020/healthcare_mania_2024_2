@@ -1551,8 +1551,6 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
   }
 
   void _save() async {
-    moveToLastScreen();
-
     widget.model.date = DateFormat.yMMMd().format(DateTime.now());
     debugPrint(widget.model.on_the_day_24);
     int result;
@@ -1563,9 +1561,11 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
     }
 
     if (result != 0) {
+      moveToLastScreen();
       // Success
       _showAlertDialog('状況', '保存完了！！');
     } else {
+      moveToLastScreen();
       // Failure
       _showAlertDialog('状況', '問題発生・保存されませんでした');
     }

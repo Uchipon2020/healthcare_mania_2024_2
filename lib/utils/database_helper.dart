@@ -82,7 +82,7 @@ class DatabaseHelper {
     String path = '${directory.path}models.db';
     var modelsDatabase = await openDatabase(
         path,
-        version: 3,
+        version: 4,
         onCreate: _createDb,
         onUpgrade: _upgradeDB);
     return modelsDatabase;
