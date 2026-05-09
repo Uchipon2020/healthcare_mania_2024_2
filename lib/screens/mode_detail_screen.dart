@@ -67,6 +67,7 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
   final serumIronController = TextEditingController();
   final plateletController = TextEditingController();
   final internalController = TextEditingController();
+  final memoController = TextEditingController();
 
   @override
   void initState() {
@@ -122,6 +123,7 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
     serumIronController.text = widget.model.serumIron_45;
     plateletController.text = widget.model.platelet_46;
     internalController.text = widget.model.internal_47;
+    memoController.text = widget.model.memo_48;
   }
 
   double _selectedValue = 1.0;
@@ -1267,6 +1269,24 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Text(''),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                child: TextField(
+                  controller: memoController,
+                  style: textStyle,
+                  maxLines: 5,
+                  onChanged: (value){
+                    updateMemo();
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'メモ',
+                    labelStyle: textStyle,
+                    icon: const Icon(Icons.note),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0)
+                    ),
+                  ),
+                ),)
               ],
             ),
             /* 5 Element　削除　横並び表示
@@ -1292,7 +1312,7 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            if (widget.model.on_the_day_24 == null || widget.model.on_the_day_24!.isEmpty) {
+            if (widget.model.on_the_day_24.isEmpty) {
               _showAlertDialog('警告', '受診日入力は必須です。');
               //moveToLastScreen();
             } else {
@@ -1535,6 +1555,9 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
     widget.model.platelet_46 = plateletController.text;
   }
 
+  void updateMemo(){
+    widget.model.memo_48 = memoController.text;
+  }
 
   Future<void> _showDialog() async {
     double? selectedValue = await showDialog<double>(
@@ -1627,7 +1650,9 @@ class NumberSelectDialog extends StatefulWidget {
   final double minValue;
   final double maxValue;
 
-  const NumberSelectDialog({super.key,  required this.selectedValue, required this.minValue, required this.maxValue});
+  const NumberSelectDialog({
+    super.key,  required this.selectedValue,
+    required this.minValue, required this.maxValue});
 
   @override
   _NumberSelectDialogState createState() => _NumberSelectDialogState();

@@ -134,6 +134,7 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
       45: widget.model.serumIron_45,
       46: widget.model.platelet_46,
       47: widget.model.internal_47,
+      48: widget.model.memo_48,
     };
   }
 
@@ -831,6 +832,24 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
                 ],
               ),
             ),
+          if (modelViews[48] != ' -- ')
+            Card(
+                elevation: 0.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      color: Colors.grey[200],
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: const Text('メモ',
+                        style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(modelViews[48]!),
+                  ],
+                )
+            )
         ]),
       ),
     );

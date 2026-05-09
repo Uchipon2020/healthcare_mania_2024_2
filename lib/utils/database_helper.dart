@@ -5,7 +5,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/model.dart';
 
-
 //データベースとのやり取りを、別クラスにした
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper; // Singleton DatabaseHelper
@@ -56,7 +55,7 @@ class DatabaseHelper {
   String colReaNitrogen = 'ureaNitrogen'; //尿素窒素
   String colCreatinine = 'creatinine'; //クレアチニン
   String colAmylase = 'amylase'; //アミラーゼ
-  String colWhiteBloodCell ='whiteBloodCell'; //白血球数
+  String colWhiteBloodCell = 'whiteBloodCell'; //白血球数
   String colHematocrit = 'hematocrit';
   String colMcv = 'mcv';
   String colMch = 'mch';
@@ -80,11 +79,8 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = '${directory.path}models.db';
-    var modelsDatabase = await openDatabase(
-        path,
-        version: 4,
-        onCreate: _createDb,
-        onUpgrade: _upgradeDB);
+    var modelsDatabase = await openDatabase(path,
+        version: 4, onCreate: _createDb, onUpgrade: _upgradeDB);
     return modelsDatabase;
   }
 
@@ -102,7 +98,7 @@ class DatabaseHelper {
         ' $colBloodGlucose TEXT, $colHA1c TEXT, $colUrine TEXT, $colSugar TEXT, $colEcg TEXT, '
         ' $colOnTheDay TEXT, $colPriority INTEGER, $colDate TEXT, $colWaist TEXT, $colCorrectedEyeR TEXT,'
         ' $colCorrectedEyeL TEXT, $colLatenBlood TEXT, $colBloodInTheStool TEXT, $colTotalProtein TEXT,'
-        ' $colAlbumin TEXT, $colTotalBilirubin TEXT, $colAlp TEXT, $colTotalCholesterol TEXT,'//
+        ' $colAlbumin TEXT, $colTotalBilirubin TEXT, $colAlp TEXT, $colTotalCholesterol TEXT,' //
         ' $colUricAcid TEXT, $colReaNitrogen TEXT, $colCreatinine TEXT, $colAmylase TEXT,'
         ' $colWhiteBloodCell TEXT, $colHematocrit TEXT, $colMcv TEXT, $colMch TEXT, $colMchc TEXT,'
         ' $colSerumIron TEXT, $colPlatelet TEXT, $colInternal TEXT,'
@@ -110,44 +106,39 @@ class DatabaseHelper {
   }
 
   void _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    try {
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colWaist TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colCorrectedEyeR TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colCorrectedEyeL TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colLatenBlood TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colBloodInTheStool TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colTotalProtein TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colAlbumin TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colTotalBilirubin TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colAlp TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colTotalCholesterol TEXT'); //
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colUricAcid TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colReaNitrogen TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colCreatinine TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colAmylase TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colWhiteBloodCell TEXT');
-      await db.execute(
-          'ALTER TABLE $modelTable ADD COLUMN $colHematocrit TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colMcv TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colMch TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colMchc TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colSerumIron TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colPlatelet TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colInternal TEXT');
-      await db.execute('ALTER TABLE $modelTable ADD COLUMN $colMemo TEXT');
-    } catch (e){if (kDebugMode) {
-      print("Error during upgrading: $e");
-    }}}
+    final alters = [
+      'ALTER TABLE $modelTable ADD COLUMN $colWaist TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCorrectedEyeR TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCorrectedEyeL TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colLatenBlood TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colBloodInTheStool TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colTotalProtein TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAlbumin TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colTotalBilirubin TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAlp TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colTotalCholesterol TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colUricAcid TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colReaNitrogen TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCreatinine TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAmylase TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colWhiteBloodCell TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colHematocrit TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colMcv TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colMch TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colMchc TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colSerumIron TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colPlatelet TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colInternal TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colMemo TEXT',
+    ];
+    for (final sql in alters) {
+      try {
+        await db.execute(sql);
+      } catch (e) {
+        if (kDebugMode) print('Skip: $sql - $e');
+      }
+    }
+  }
 
   Future<List<Map<String, dynamic>>> getModelMapList() async {
     Database db = await database;
@@ -171,14 +162,14 @@ class DatabaseHelper {
   Future<int> deleteModel(int id) async {
     var db = await database;
     int result =
-    await db.rawDelete('DELETE FROM $modelTable WHERE $colId = $id');
+        await db.rawDelete('DELETE FROM $modelTable WHERE $colId = $id');
     return result;
   }
 
   Future<int?> getCount() async {
     Database db = await database;
     List<Map<String, dynamic>> x =
-    await db.rawQuery('SELECT COUNT (*) from $modelTable');
+        await db.rawQuery('SELECT COUNT (*) from $modelTable');
     int? result = Sqflite.firstIntValue(x);
     return result;
   }
