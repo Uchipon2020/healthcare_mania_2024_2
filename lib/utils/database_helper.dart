@@ -65,6 +65,21 @@ class DatabaseHelper {
   String colInternal = 'internal';
   String colMemo = 'memo';
 
+  //Ver3追加
+  String colEyePressureRight = 'eye_pressure_right';
+  String colEyePressureLeft = 'eye_pressure_left';
+  String colContactRight = 'contact_right';
+  String colContactLeft = 'contact_left';
+  String colAstigRight = 'astig_right';
+  String colAstigLeft = 'astig_left';
+  String colAxisRight = 'axis_right';
+  String colAxisLeft = 'axis_left';
+  String colCea = 'cea';
+  String colAfp = 'afp';
+  String colPsa = 'psa';
+  String colCa19_9 = 'ca19_9';
+  String colCa125 = 'ca125';
+
   DatabaseHelper._createInstance(); //
   factory DatabaseHelper() {
     _databaseHelper ??= DatabaseHelper._createInstance();
@@ -78,9 +93,9 @@ class DatabaseHelper {
 
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = '${directory.path}models.db';
+    String path = '${directory.path}/models.db';
     var modelsDatabase = await openDatabase(path,
-        version: 4, onCreate: _createDb, onUpgrade: _upgradeDB);
+        version: 5, onCreate: _createDb, onUpgrade: _upgradeDB);
     return modelsDatabase;
   }
 
@@ -102,7 +117,13 @@ class DatabaseHelper {
         ' $colUricAcid TEXT, $colReaNitrogen TEXT, $colCreatinine TEXT, $colAmylase TEXT,'
         ' $colWhiteBloodCell TEXT, $colHematocrit TEXT, $colMcv TEXT, $colMch TEXT, $colMchc TEXT,'
         ' $colSerumIron TEXT, $colPlatelet TEXT, $colInternal TEXT,'
-        ' $colMemo TEXT)');
+        ' $colMemo TEXT,'
+        ' $colEyePressureRight TEXT, $colEyePressureLeft TEXT,'
+        ' $colContactRight TEXT, $colContactLeft TEXT,'
+        ' $colAstigRight TEXT, $colAstigLeft TEXT,'
+        ' $colAxisRight TEXT, $colAxisLeft TEXT,'
+        ' $colCea TEXT, $colAfp TEXT, $colPsa TEXT,'
+        ' $colCa19_9 TEXT, $colCa125 TEXT)');
   }
 
   void _upgradeDB(Database db, int oldVersion, int newVersion) async {
@@ -130,6 +151,20 @@ class DatabaseHelper {
       'ALTER TABLE $modelTable ADD COLUMN $colPlatelet TEXT',
       'ALTER TABLE $modelTable ADD COLUMN $colInternal TEXT',
       'ALTER TABLE $modelTable ADD COLUMN $colMemo TEXT',
+      ////////
+      'ALTER TABLE $modelTable ADD COLUMN $colEyePressureRight TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colEyePressureLeft TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colContactRight TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colContactLeft TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAstigRight TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAstigLeft TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAxisRight TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAxisLeft TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCea TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colAfp TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colPsa TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCa19_9 TEXT',
+      'ALTER TABLE $modelTable ADD COLUMN $colCa125 TEXT',
     ];
     for (final sql in alters) {
       try {

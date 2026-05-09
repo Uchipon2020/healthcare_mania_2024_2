@@ -54,6 +54,22 @@ class Model {
   String? _46_platelet;
   String? _47_internal;
   String? _48_memo;
+  // 眼科系（右）
+  String? _49_eye_pressure_right;   // 眼圧右
+  String? _50_eye_pressure_left;    // 眼圧左
+  String? _51_contact_right;        // コンタクト度数右
+  String? _52_contact_left;         // コンタクト度数左
+  String? _53_astig_right;          // 乱視度数右
+  String? _54_astig_left;           // 乱視度数左
+  String? _55_axis_right;           // 軸度右
+  String? _56_axis_left;            // 軸度左
+
+// 腫瘍マーカー
+  String? _57_cea;    // CEA
+  String? _58_afp;    // AFP
+  String? _59_psa;    // PSA
+  String? _60_ca19_9; // CA19-9
+  String? _61_ca125;  // CA125
 
   Model(
       this._priority, [
@@ -106,6 +122,22 @@ class Model {
         this._46_platelet = "", //血小板
         this._47_internal = "",
         this._48_memo = "",
+        // 眼科系（右）
+        this._49_eye_pressure_right = "",   // 眼圧右
+        this._50_eye_pressure_left = "",    // 眼圧左
+        this._51_contact_right = "",        // コンタクト度数右
+        this._52_contact_left = "",        // コンタクト度数左
+        this._53_astig_right = "",          // 乱視度数右
+        this._54_astig_left = "",           // 乱視度数左
+        this._55_axis_right = "",           // 軸度右
+        this._56_axis_left = "",            // 軸度左
+
+       // 腫瘍マーカー
+        this._57_cea = "",    // CEA
+        this._58_afp = "",    // AFP
+        this._59_psa = "",    // PSA
+        this._60_ca19_9 = "", // CA19-9
+        this._61_ca125 = "",  // CA125
       ]);
 
   Model.withId(
@@ -161,6 +193,23 @@ class Model {
         this._46_platelet, //血小板
         this._47_internal,
         this._48_memo,
+        ///////////////////Ver5
+        // 眼科系（右）
+        this._49_eye_pressure_right,   // 眼圧右
+        this._50_eye_pressure_left,    // 眼圧左
+        this._51_contact_right,        // コンタクト度数右
+        this._52_contact_left,        // コンタクト度数左
+        this._53_astig_right,          // 乱視度数右
+        this._54_astig_left,           // 乱視度数左
+        this._55_axis_right,           // 軸度右
+        this._56_axis_left,            // 軸度左
+
+        // 腫瘍マーカー
+        this._57_cea,    // CEA
+        this._58_afp,    // AFP
+        this._59_psa,    // PSA
+        this._60_ca19_9, // CA19-9
+        this._61_ca125,  // CA125
       ]);
 
   int? get id => _id;
@@ -214,6 +263,20 @@ class Model {
   String get platelet_46 => _46_platelet!; //血小板
   String get internal_47 => _47_internal!;
   String get memo_48 => _48_memo ?? '';
+
+  String get eyePressureRight_49 => _49_eye_pressure_right ?? '';
+  String get eyePressureLeft_50 => _50_eye_pressure_left ?? '';
+  String get contactRight_51 => _51_contact_right ?? '';
+  String get contactLeft_52 => _52_contact_left ?? '';
+  String get astigRight_53 => _53_astig_right ?? '';
+  String get astigLeft_54 => _54_astig_left ?? '';
+  String get axisRight_55 => _55_axis_right ?? '';
+  String get axisLeft_56 => _56_axis_left ?? '';
+  String get cea_57 => _57_cea ?? '';
+  String get afp_58 => _58_afp ?? '';
+  String get psa_59 => _59_psa ?? '';
+  String get ca19_9_60 => _60_ca19_9 ?? '';
+  String get ca125_61 => _61_ca125 ?? '';
 
   /////setter aria
   set height_1(String newHeight) {
@@ -420,6 +483,45 @@ class Model {
   set memo_48(String value){
     _48_memo = value;
   }
+  set eyePressureRight_49(String value) {
+    _49_eye_pressure_right = value;
+  }
+  set eyePressureLeft_50(String value) {
+    _50_eye_pressure_left = value;
+  }
+  set contactRight_51(String value) {
+    _51_contact_right = value;
+  }
+  set contactLeft_52(String value) {
+    _52_contact_left = value;
+  }
+  set astigRight_53(String value) {
+    _53_astig_right = value;
+  }
+  set astigLeft_54(String value) {
+    _54_astig_left = value;
+  }
+  set axisRight_55(String value) {
+    _55_axis_right = value;
+  }
+  set axisLeft_56(String value) {
+    _56_axis_left = value;
+  }
+  set cea_57(String value) {
+    _57_cea = value;
+  }
+  set afp_58(String value) {
+    _58_afp = value;
+  }
+  set psa_59(String value) {
+    _59_psa = value;
+  }
+  set ca19_9_60(String value) {
+    _60_ca19_9 = value;
+  }
+  set ca125_61(String value) {
+    _61_ca125 = value;
+  }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
@@ -474,6 +576,19 @@ class Model {
     map['platelet'] = _46_platelet;
     map['internal'] = _47_internal;
     map['memo'] = _48_memo;
+    map['eye_pressure_right'] = _49_eye_pressure_right;
+    map['eye_pressure_left'] = _50_eye_pressure_left;
+    map['contact_right'] = _51_contact_right;
+    map['contact_left'] = _52_contact_left;
+    map['astig_right'] = _53_astig_right;
+    map['astig_left'] = _54_astig_left;
+    map['axis_right'] = _55_axis_right;
+    map['axis_left'] = _56_axis_left;
+    map['cea'] = _57_cea;
+    map['afp'] = _58_afp;
+    map['psa'] = _59_psa;
+    map['ca19_9'] = _60_ca19_9;
+    map['ca125'] = _61_ca125;
     return map;
   }
 
@@ -530,5 +645,18 @@ class Model {
     _46_platelet = map['platelet'];
     _47_internal = map['internal'];
     _48_memo = map['memo'];
+    _49_eye_pressure_right = map['eye_pressure_right'];
+    _50_eye_pressure_left = map['eye_pressure_left'];
+    _51_contact_right = map['contact_right'];
+    _52_contact_left = map['contact_left'];
+    _53_astig_right = map['astig_right'];
+    _54_astig_left = map['astig_left'];
+    _55_axis_right = map['axis_right'];
+    _56_axis_left = map['axis_left'];
+    _57_cea = map['cea'];
+    _58_afp = map['afp'];
+    _59_psa = map['psa'];
+    _60_ca19_9 = map['ca19_9'];
+    _61_ca125 = map['ca125'];
   }
 }
