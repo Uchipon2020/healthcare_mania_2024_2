@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/model.dart';
+import '../models/field_config.dart';
+import '../utils/field_config_helper.dart';
 import 'graph/blood_Presser_graph.dart';
 import 'graph/eight_graph.dart';
 
@@ -22,6 +24,7 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
   static final _priorities = ['定期健康診断', '人間ドック', '独自検査'];
   late Map<int, String> modelViews;
   late Map<int, String> prevViews;
+  Map<int, FieldConfig> _fieldConfigs = Map.from(FieldConfigHelper.defaults);
 
   String diffText(int key) {
     final current = double.tryParse(modelViews[key] ?? '');
@@ -67,9 +70,15 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
     46: [15.0, 40.0], // 血小板
   };
 
+  Future<void> _loadFieldConfigs() async {
+    final configs = await FieldConfigHelper().loadAll();
+    if (mounted) setState(() => _fieldConfigs = configs);
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadFieldConfigs();
     // 現在のデータより古いレコードを日付順に並べて直前を取得
     final sorted = [...widget.modelList]
       ..sort((a, b) => a.on_the_day_24.compareTo(b.on_the_day_24));
@@ -135,6 +144,19 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
       46: widget.model.platelet_46,
       47: widget.model.internal_47,
       48: widget.model.memo_48,
+      49: widget.model.eyePressureRight_49,
+      50: widget.model.eyePressureLeft_50,
+      51: widget.model.contactRight_51,
+      52: widget.model.contactLeft_52,
+      53: widget.model.astigRight_53,
+      54: widget.model.astigLeft_54,
+      55: widget.model.axisRight_55,
+      56: widget.model.axisLeft_56,
+      57: widget.model.cea_57,
+      58: widget.model.afp_58,
+      59: widget.model.psa_59,
+      60: widget.model.ca19_9_60,
+      61: widget.model.ca125_61,
     };
   }
 
@@ -804,6 +826,71 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
             indent: 20,
             endIndent: 0,
           ),
+          const SizedBox(height: 3.0),
+          // 眼科セクション
+          Row(
+            children: [
+              Expanded(child: Divider(color: Colors.blue)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Text('眼科',
+                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+              ),
+              Expanded(child: Divider(color: Colors.blue)),
+            ],
+          ),
+          if ([49, 50].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text('眼圧',
+                        style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
+                  ),
+                  Row(children: [
+                    if (modelViews[49] != ' -- ') Text('右眼圧：${modelViews[49]!} mmHg　'),
+                    if (modelViews[50] != ' -- ') Text('左眼圧：${modelViews[50]!} mmHg'),
+                  ]),
+                ],
+              ),
+            ),
+          const SizedBox(height: 3.0),
+          if ([51, 52, 53, 54, 55, 56].any((i) => modelViews[i] != ' -- '))
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text('コンタクト・乱視・軸度',
+                        style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
+                  ),
+                  if ([51, 52].any((i) => modelViews[i] != ' -- '))
+                    Row(children: [
+                      if (modelViews[51] != ' -- ') Text('コンタクト(右)：${modelViews[51]!}　'),
+                      if (modelViews[52] != ' -- ') Text('コンタクト(左)：${modelViews[52]!}'),
+                    ]),
+                  if ([53, 54].any((i) => modelViews[i] != ' -- '))
+                    Row(children: [
+                      if (modelViews[53] != ' -- ') Text('乱視(右)：${modelViews[53]!}　'),
+                      if (modelViews[54] != ' -- ') Text('乱視(左)：${modelViews[54]!}'),
+                    ]),
+                  if ([55, 56].any((i) => modelViews[i] != ' -- '))
+                    Row(children: [
+                      if (modelViews[55] != ' -- ') Text('軸度(右)：${modelViews[55]!} °　'),
+                      if (modelViews[56] != ' -- ') Text('軸度(左)：${modelViews[56]!} °'),
+                    ]),
+                ],
+              ),
+            ),
           const SizedBox(
             height: 3.0,
           ),
@@ -832,6 +919,41 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
                 ],
               ),
             ),
+          const SizedBox(height: 3.0),
+          // 腫瘍マーカーセクション
+          if ([57, 58, 59, 60, 61].any((i) => modelViews[i] != ' -- ')) ...[
+            Row(
+              children: [
+                Expanded(child: Divider(color: Colors.purple)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Text('腫瘍マーカー',
+                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold)),
+                ),
+                Expanded(child: Divider(color: Colors.purple)),
+              ],
+            ),
+            Card(
+              elevation: 0.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: const Text('腫瘍マーカー',
+                        style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
+                  ),
+                  if (modelViews[57] != ' -- ') Text('CEA：${modelViews[57]!} ng/mL'),
+                  if (modelViews[58] != ' -- ') Text('AFP：${modelViews[58]!} ng/mL'),
+                  if (modelViews[59] != ' -- ') Text('PSA：${modelViews[59]!} ng/mL'),
+                  if (modelViews[60] != ' -- ') Text('CA19-9：${modelViews[60]!} U/mL'),
+                  if (modelViews[61] != ' -- ') Text('CA125：${modelViews[61]!} U/mL'),
+                ],
+              ),
+            ),
+          ],
           if (modelViews[48] != ' -- ')
             Card(
                 elevation: 0.0,
@@ -863,11 +985,13 @@ class _ModelViewScreen2State extends State<ModelViewScreen2> {
     if (modelViews[key] == ' -- ') return Colors.black;
     final value = double.tryParse(modelViews[key]!);
     if (value == null) return Colors.black;
-    final range = normalRanges[key];
-    if (range == null) return Colors.black;
-    final lower = range[0];
-    final upper = range[1];
-    if (lower != null && value < lower) return Colors.red;
+
+    // ユーザー設定があればそちらを優先、なければ組み込みnormalRangesを参照
+    final cfg = _fieldConfigs[key];
+    final double? lower = cfg?.lower ?? normalRanges[key]?[0];
+    final double? upper = cfg?.upper ?? normalRanges[key]?[1];
+
+    if (lower != null && value < lower) return Colors.blue;
     if (upper != null && value > upper) return Colors.red;
     return Colors.black;
   }

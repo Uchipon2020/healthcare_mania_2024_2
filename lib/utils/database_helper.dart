@@ -95,7 +95,7 @@ class DatabaseHelper {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = '${directory.path}/models.db';
     var modelsDatabase = await openDatabase(path,
-        version: 5, onCreate: _createDb, onUpgrade: _upgradeDB);
+        version: 6, onCreate: _createDb, onUpgrade: _upgradeDB);
     return modelsDatabase;
   }
 
@@ -124,6 +124,15 @@ class DatabaseHelper {
         ' $colAxisRight TEXT, $colAxisLeft TEXT,'
         ' $colCea TEXT, $colAfp TEXT, $colPsa TEXT,'
         ' $colCa19_9 TEXT, $colCa125 TEXT)');
+    await db.execute(
+        'CREATE TABLE field_configs('
+        ' id INTEGER PRIMARY KEY AUTOINCREMENT,'
+        ' field_key INTEGER UNIQUE,'
+        ' lower REAL, upper REAL,'
+        ' step REAL NOT NULL,'
+        ' dial_min REAL NOT NULL,'
+        ' dial_max REAL NOT NULL,'
+        ' default_value REAL)');
   }
 
   void _upgradeDB(Database db, int oldVersion, int newVersion) async {
@@ -171,6 +180,21 @@ class DatabaseHelper {
         await db.execute(sql);
       } catch (e) {
         if (kDebugMode) print('Skip: $sql - $e');
+      }
+    }
+    if (oldVersion < 6) {
+      try {
+        await db.execute(
+            'CREATE TABLE IF NOT EXISTS field_configs('
+            ' id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            ' field_key INTEGER UNIQUE,'
+            ' lower REAL, upper REAL,'
+            ' step REAL NOT NULL,'
+            ' dial_min REAL NOT NULL,'
+            ' dial_max REAL NOT NULL,'
+            ' default_value REAL)');
+      } catch (e) {
+        if (kDebugMode) print('field_configs table: $e');
       }
     }
   }
