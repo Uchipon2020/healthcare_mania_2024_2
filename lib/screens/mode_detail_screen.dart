@@ -174,6 +174,86 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
   FieldConfig _cfg(int key) =>
       _configs[key] ?? FieldConfigHelper.defaults[key]!;
 
+  // 2択セレクター（異常あり/なし、所見あり/なし）
+  Widget _binarySelector(
+    BuildContext context, {
+    required String label,
+    IconData? icon,
+    required TextEditingController controller,
+    required List<String> options,
+    required VoidCallback onChanged,
+  }) {
+    final ts = Theme.of(context).textTheme.titleMedium;
+    final current = controller.text;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: ts,
+          icon: icon != null ? Icon(icon) : null,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        ),
+        child: ToggleButtons(
+          isSelected: options.map((o) => o == current).toList(),
+          onPressed: (i) => setState(() {
+            controller.text = options[i];
+            onChanged();
+          }),
+          borderRadius: BorderRadius.circular(6),
+          constraints: const BoxConstraints(minHeight: 36),
+          children: options
+              .map((o) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(o, style: ts),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  // 4択セレクター（ー / + / ++ / +++）
+  Widget _quadSelector(
+    BuildContext context, {
+    required String label,
+    required TextEditingController controller,
+    required VoidCallback onChanged,
+  }) {
+    const options = ['ー', '+', '++', '+++'];
+    final ts = Theme.of(context).textTheme.titleMedium;
+    final current = controller.text;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: ts,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        ),
+        child: ToggleButtons(
+          isSelected: options.map((o) => o == current).toList(),
+          onPressed: (i) => setState(() {
+            controller.text = options[i];
+            onChanged();
+          }),
+          borderRadius: BorderRadius.circular(6),
+          constraints: const BoxConstraints(minHeight: 36),
+          children: options
+              .map((o) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(o, style: ts),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
+  }
+
   double _selectedValue = 1.0;
   final double _minValue = 1.0;
   final double _maxValue = 10.0;
@@ -459,76 +539,11 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
                 ),
               ],
             ),
-            // 聴力1000Hz（テキスト）
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 2.5),
-              child: Row(children: [
-                Expanded(
-                  child: TextField(
-                    controller: hR1000Controller,
-                    style: textStyle,
-                    onChanged: (value) => updateHearing_r_1000(),
-                    decoration: InputDecoration(
-                      labelText: '右聴力1000',
-                      labelStyle: textStyle,
-                      icon: const Icon(Icons.hearing),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                ),
-                Container(width: 5.0),
-                Expanded(
-                  child: TextField(
-                    controller: hL1000Controller,
-                    style: textStyle,
-                    onChanged: (value) => updateHearing_l_1000(),
-                    decoration: InputDecoration(
-                      labelText: '左聴力1000',
-                      labelStyle: textStyle,
-                      icon: const Icon(Icons.hearing),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-            // 聴力4000Hz（テキスト）
-            Padding(
-              padding: const EdgeInsets.only(top: 2.5, bottom: 10.0),
-              child: Row(children: [
-                Expanded(
-                  child: TextField(
-                    controller: hR4000Controller,
-                    style: textStyle,
-                    onChanged: (value) => updateHearing_r_4000(),
-                    decoration: InputDecoration(
-                      labelText: '右聴力4000',
-                      labelStyle: textStyle,
-                      icon: const Icon(Icons.hearing),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                ),
-                Container(width: 5.0),
-                Expanded(
-                  child: TextField(
-                    controller: hL4000Controller,
-                    style: textStyle,
-                    onChanged: (value) => updateHearing_l_4000(),
-                    decoration: InputDecoration(
-                      labelText: '左聴力4000',
-                      labelStyle: textStyle,
-                      icon: const Icon(Icons.hearing),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                ),
-              ]),
-            ),
+            // 聴力
+            _binarySelector(context, label: '右聴力 1000Hz', icon: Icons.hearing, controller: hR1000Controller, options: ['異常なし', '異常あり'], onChanged: updateHearing_r_1000),
+            _binarySelector(context, label: '左聴力 1000Hz', icon: Icons.hearing, controller: hL1000Controller, options: ['異常なし', '異常あり'], onChanged: updateHearing_l_1000),
+            _binarySelector(context, label: '右聴力 4000Hz', icon: Icons.hearing, controller: hR4000Controller, options: ['異常なし', '異常あり'], onChanged: updateHearing_r_4000),
+            _binarySelector(context, label: '左聴力 4000Hz', icon: Icons.hearing, controller: hL4000Controller, options: ['異常なし', '異常あり'], onChanged: updateHearing_l_4000),
             // 血圧
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -558,54 +573,10 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
                 ),
               ]),
             ),
-            // レントゲン（テキスト）
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                controller: xRayController,
-                style: textStyle,
-                onChanged: (value) => updateXray(),
-                decoration: InputDecoration(
-                  labelText: 'レントゲン検査所見',
-                  icon: const Icon(Icons.content_paste),
-                  labelStyle: textStyle,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
-                ),
-              ),
-            ),
-            // 心電図（テキスト）
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                controller: eCgController,
-                style: textStyle,
-                onChanged: (value) => updateEcg(),
-                decoration: InputDecoration(
-                  labelText: '心電図検査所見',
-                  labelStyle: textStyle,
-                  icon: const Icon(Icons.accessibility),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
-                ),
-              ),
-            ),
-            // 内科診察（テキスト）
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                controller: internalController,
-                style: textStyle,
-                onChanged: (value) => updateInternal(),
-                decoration: InputDecoration(
-                  labelText: '内科診察所見',
-                  labelStyle: textStyle,
-                  icon: const Icon(Icons.accessibility),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
-                ),
-              ),
-            ),
+            // レントゲン・心電図・内科診察
+            _binarySelector(context, label: 'レントゲン検査', icon: Icons.content_paste, controller: xRayController, options: ['所見なし', '所見あり'], onChanged: updateXray),
+            _binarySelector(context, label: '心電図検査', icon: Icons.monitor_heart, controller: eCgController, options: ['所見なし', '所見あり'], onChanged: updateEcg),
+            _binarySelector(context, label: '内科診察', icon: Icons.local_hospital, controller: internalController, options: ['所見なし', '所見あり'], onChanged: updateInternal),
             // 血液検査セクション
             Row(children: [
               Expanded(child: Divider(color: Colors.red)),
@@ -978,76 +949,20 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
               title: const Text('検尿・検便'),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: sugarController,
-                    style: textStyle,
-                    onChanged: (value) => updateSugar(),
-                    decoration: InputDecoration(
-                      labelText: '尿糖',
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: _quadSelector(context, label: '尿糖', controller: sugarController, onChanged: updateSugar),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: urineController,
-                    style: textStyle,
-                    onChanged: (value) => updateUrine(),
-                    decoration: InputDecoration(
-                      labelText: '尿蛋白',
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: _quadSelector(context, label: '尿蛋白', controller: urineController, onChanged: updateUrine),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: latentBloodController,
-                    style: textStyle,
-                    onChanged: (value) => updateLatentBlood(),
-                    decoration: InputDecoration(
-                      labelText: '尿潜血',
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: _quadSelector(context, label: '尿潜血', controller: latentBloodController, onChanged: updateLatentBlood),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: bloodInTheStoolController,
-                    style: textStyle,
-                    onChanged: (value) => updateBloodIn(),
-                    decoration: InputDecoration(
-                      labelText: '便潜血',
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: TextField(
-                    controller: memoController,
-                    style: textStyle,
-                    maxLines: 5,
-                    onChanged: (value) => updateMemo(),
-                    decoration: InputDecoration(
-                      labelText: 'メモ',
-                      labelStyle: textStyle,
-                      icon: const Icon(Icons.note),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: _quadSelector(context, label: '便潜血', controller: bloodInTheStoolController, onChanged: updateBloodIn),
                 ),
               ],
             ),
@@ -1121,6 +1036,23 @@ class _ModelDetailScreenState extends State<ModelDetailScreen> {
                   ),
                 ),
               ],
+            ),
+            // メモ
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+              child: TextField(
+                controller: memoController,
+                style: textStyle,
+                maxLines: 5,
+                onChanged: (value) => updateMemo(),
+                decoration: InputDecoration(
+                  labelText: 'メモ',
+                  labelStyle: textStyle,
+                  icon: const Icon(Icons.note),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                ),
+              ),
             ),
             // 削除ボタン
             ElevatedButton(
